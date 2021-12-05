@@ -10,7 +10,17 @@
             header($ruta."Portada.php");
         }
         else{
-            if()
+            if(!isset($_POST['album']) || !isset($_POST['formato']) || !isset($_POST['imagen']) || !isset($_POST['titulo'])){
+                $msg = "Por favor llenar el formulario";
+                header($ruta."subirImagen.php");
+            }
+            else if($_POST['album']== "" || $_POST['formato']=="" || $_POST['imagen']=="" || $_POST['titulo']==""){
+                $msg = "Algún valor del formulario se envio vacio, favor de llenar todos los campos";
+                header($ruta."subirImagen.php");
+            }
+            else{
+                
+            }
         }
     }
     
