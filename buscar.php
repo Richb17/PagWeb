@@ -1,51 +1,32 @@
 <?php
 include("funciones.php");
-?>
+//cadena de conexion
+$conexion = conectarBD();
+//DEBO PREPARAR LOS TEXTOS QUE VOY A BUSCAR si la cadena existe
+if(!isset($_POST['busqueda'])){
+    header($ruta."Portada.php");
+}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portada</title>
-</head>
-<body>
-    <h1>Sistema de control de archivos</h1>
-
-    <?php 
-    //Autenticación
-    if(isset($_SESSION['username'])){
-        echo "<h2>Bienvenido ". $_SESSION['username']."</h2>";
-        echo "<div> <a href=\"cambiarPwd.php\"> Cambiar contraseña </a> || <a href=\"logout.php\">Cerrar sesión</a> </div>";
-        if($_SESSION['role'] == 2){
-            echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
-            echo "<a href=\"subirImagen.php\"> Subir una nueva imagen al sistema </a><br>";
-            echo "<a href=\"registroDescuento.php\"> Agregar nuevo descuento </a><br>";
-            echo "<a href=\"registroAdmin.php\"> Registrar a un nuevo administrador </a><br>";    
-        }
-        else if($_SESSION['role'] == 3){
-            echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
-            echo "<a href=\"subirImagen.php\"> Subir una nueva imagen al sistema </a><br>";
-        }
+extract($_POST);
+echo "<a href=\"portada.php\">Regresar a inicio</a><br>";
+crearBarraBusqueda();
+if ($busqueda!=''){
+    //CUENTA EL NUMERO DE PALABRAS
+    $trozos=explode(" ",$busqueda);
+    $numero=count($trozos);
+    if ($numero==1) {
+        //SI SOLO HAY UNA PALABRA DE BUSQUEDA SE ESTABLECE UNA INSTRUCION CON LIKE
+        $consulta="SELECT * FROM `productos` WHERE `albumname` LIKE '$busqueda' OR `artistname` LIKE '$busqueda' OR `genre` LIKE '$busqueda' OR `format` LIKE '$busqueda' LIMIT 50";
+    } 
+    elseif ($numero>1) {
+        //SI HAY UNA FRASE SE UTILIZA EL ALGORTIMO DE BUSQUEDA AVANZADO DE MATCH AGAINST
+        //busqueda de frases con mas de una palabra y un algoritmo especializado
+        $consulta="SELECT * , MATCH ( `albumname`,`artistname`,`genre`,`format` ) AGAINST ( '$busqueda' ) AS `Score` FROM `productos` WHERE MATCH ( `albumname`,`artistname`,`genre`,`format` ) AGAINST ( '$busqueda' ) ORDER BY `Score` DESC LIMIT 50";
     }
-    else{
-    ?>
-        <h2>Inicia sesión:</h2>
-        <form method="post" action = "login.php">
-            <h3>Para usar el sistema necesitas autenticarte</h3>
-            Usuario: <input type="text" id="txtUsuario" name="txtUsuario"><br>
-            Contraseña: <input type="password" id="txtPwd" name="txtPwd"><br><br>
-            <input type="submit" value="Autentícame">
-            <input type="reset" value="Cancelar"> <br>
-            Si no te has registrado, da clic aquí <a href="registro.php">Registrate</a>
-        </form>
+    
+    $result = $conexion->query($consulta);
 
-    <?php
-    }
-    crearBarraBusqueda();
-    $conexion = conectarBD();
-    $res = $conexion->query("SELECT * FROM `productos`");
-    if($res){
+    if(mysqli_num_rows($result) > 0){
         echo "<table>";
         echo "<tr>";
         echo "<td>Id</td>";
@@ -62,7 +43,7 @@ include("funciones.php");
         }
         echo "<td>Compra-Venta</td>";
         echo "</tr>";
-        while($row = $res->fetch_array(MYSQLI_ASSOC)){
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             echo "<td>".$row['idprod']."</td>";
             echo "<td>".$row['albumname']."</td>";
             echo "<td>".$row['artistname']."</td>";
@@ -104,8 +85,12 @@ include("funciones.php");
             echo "</tr>";
         }
     }
+    else{
+        echo "<h3>No hubo resultados para su busqueda</h3>";
+    }
     mysqli_close($conexion);
-    ?>
-
-</body>
-</html>
+}
+else{
+    echo "<h3>Por favor introduzca una busqueda</h3>";
+}
+?>

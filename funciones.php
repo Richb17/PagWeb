@@ -16,4 +16,11 @@ function autenticado(){
         header("location:http://localhost/DesWeb%20PHP/Modulos/Portada.php");
     }
 }
+
+function crearBarraBusqueda(){
+    echo "<FORM METHOD='post' ACTION=\"buscar.php\">";
+    echo "Buscar: <INPUT TYPE=\"text\" id='busqueda' name='busqueda'>";
+    echo "<input type=\"submit\" value=\"Buscar\">";
+    echo "</FORM>";
+}
 ?>
