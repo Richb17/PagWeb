@@ -23,4 +23,8 @@ function crearBarraBusqueda(){
     echo "<input type=\"submit\" value=\"Buscar\">";
     echo "</FORM>";
 }
+
+function regresarUltimaUbi($ubi){
+    header("location:http://localhost/DesWeb%20PHP/Modulos/".$ubi);
+}
 ?>

@@ -56,7 +56,11 @@
         Escriba el nombre: <input type="text" id="txtNombre" name = "txtNombre"><br>
         Escriba los apellidos: <input type="text" id="txtApellido" name = "txtApellido"><br>
         Escribe la dirección de E-Mail: <input type="email" id="txtEmail" name = "txtEmail"><br>
-        Ingrese el rol: <input type="number" id="txtRol" name = "txtRol" placeholder="2.Admin 3.Capturista"><br>
+        Seleccione el rol:
+        <select name="txtRol" id="txtRol">
+            <option value="2">Administrador</option>
+            <option value="3">Capturista</option>
+        </select><br>
         Escriba contraseña: <input type="password" id="txtPwd" name = "txtPwd"><br>
         Confirme contraseña: <input type="password" id="txtConfirm" name = "txtConfirm"><br>
         <input type="submit" value="Regístrame">

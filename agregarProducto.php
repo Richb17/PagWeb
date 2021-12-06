@@ -50,8 +50,23 @@
         Ingrese el nombre del álbum: <input type="text" id="album" name = "album"><br>
         Ingrese el nombre del artista: <input type="text" id="artista" name = "artista"><br>
         Ingrese el precio del árticulo: <input type="number" id="precio" required name="precio" min="0" placeholder="0.00" step="0.01"><br>
-        Ingrese el formato del árticulo: <input type="text" id="formato" name = "formato" placeholder = "(CD, Vinilo, Cassete)"><br>
-        Ingrese el género principal del árticulo: <input type="text" id="genero" name = "genero"><br>
+        <label for="formato">Ingrese el formato del árticulo:</label>  
+        <select name="formato" id="formato">
+            <option value="CD">CD</option>
+            <option value="Vinilo">Vinilo</option>
+            <option value="Cassete">Cassete</option>
+        </select><br>
+        <label for="genero">Seleccione el genero principal del producto:</label>
+        <select name="genero" id="genero">
+            <option value="Pop">Pop</option>
+            <option value="Pop Rock">Pop Rock</option>
+            <option value="Alternativo">Alternativo</option>
+            <option value="R&B">R&B</option>
+            <option value="Rock">Rock</option>
+            <option value="Rap">Rap</option>
+            <option value="Urbano">Urbano</option>
+            <option value="Metal">Metal</option>
+        </select><br>
         <input type="hidden" id="nombreStock" name="nombreStock">
         Descripción del árticulo: <input type="text" id="descripcion" name = "descripcion"><br>
         Ingrese la cantidad de productos en stock: <input type="number" id="stock" name = "stock"><br>
