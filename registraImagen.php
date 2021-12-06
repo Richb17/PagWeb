@@ -1,7 +1,6 @@
-
 <?php
 include("funciones.php");
-
+autenticado();
 
 if($_SESSION['role'] == 1){
     header($ruta."Portada.php");

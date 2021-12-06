@@ -1,6 +1,7 @@
 <?php
     include("funciones.php");
     $msg = "";
+    autenticado();
     if(isset($_GET['err']) && $_GET['err'] != ""){
         if($_GET['err'] == "0") $msg = "Se subio correctamente el articulo";
         if($_GET['err'] == "1") $msg = "Se debe utilizar el formulario de registro";
@@ -20,7 +21,8 @@
                 document.getElementById("artista").value=="" ||
                 document.getElementById("precio").value=="" ||
                 document.getElementById("formato").value==""||
-                document.getElementById("stock").value==""){
+                document.getElementById("stock").value==""||
+                document.getElementById("titulo").value==""){
                     document.getElementById("msgAlerta").innerHTML = "Por favor llene todos los campos.";
                     return false;
                 }
@@ -32,8 +34,8 @@
     </script>
 </head>
 <body>
-    <h1>Sistema de contorl de archivos</h1>
-    <form method="get" action="registroProd.php" onsubmit="return validaFRM()">
+    <h1>Sistema de control de archivos</h1>
+    <form method="post" enctype="multipart/form-data" action="registroProd.php" onsubmit="return validaFRM()">
         <h3>Formulario de subida de archivos</h3>
 
         <?php 
@@ -53,6 +55,8 @@
         <input type="hidden" id="nombreStock" name="nombreStock">
         Descripción del árticulo: <input type="text" id="descripcion" name = "descripcion"><br>
         Ingrese la cantidad de productos en stock: <input type="number" id="stock" name = "stock"><br>
+        <input type="hidden" id="titulo" name="titulo" value="Imagen Portada">
+        Seleccione la imagen de portada del articulo: <input type="file" id="imagen" name="imagen" accept="image/*"><br>
         <input type="submit" value="Subir Producto">
         <input type="reset" value="Cancelar"> <br>
         <a href="portada.php">Regresar a inicio</a>

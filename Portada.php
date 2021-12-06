@@ -20,7 +20,7 @@ include("funciones.php");
         if($_SESSION['role'] == 2){
             echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
             echo "<a href=\"subirImagen.php\"> Subir una nueva imagen al sistema </a><br>";
-            echo "<a href=\"registroAdmin.php\"> Registrar a un nuevo administrador </a><br>";
+            echo "<a href=\"registroAdmin.php\"> Registrar a un nuevo administrador </a><br>";    
         }
         else if($_SESSION['role'] == 3){
             echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
@@ -41,6 +41,48 @@ include("funciones.php");
 
     <?php
     }
+    $conexion = conectarBD();
+    $res = $conexion->query("SELECT * FROM `productos`");
+    if($res){
+        echo "<table>";
+        echo "<tr>";
+        echo "<td>Id</td>";
+        echo "<td>Nombre album</td>";
+        echo "<td>Artista</td>";
+        echo "<td>Precio</td>";
+        echo "<td>Cantidad en stock</td>";
+        echo "<td>Descripción</td>";
+        echo "<td>Genero</td>";
+        echo "<td>Formato</td>";
+        echo "<td>Imagenes</td>";
+        echo "<td>Edición</td>";
+        echo "</tr>";
+        while($row = $res->fetch_array(MYSQLI_ASSOC)){
+            echo "<td>".$row['idprod']."</td>";
+            echo "<td>".$row['albumname']."</td>";
+            echo "<td>".$row['artistname']."</td>";
+            echo "<td>".$row['prices']."</td>";
+            $stock = $conexion->query("SELECT `quantity` FROM `stock` WHERE `id` = ".$row['idstock'].";");
+            $value = $stock->fetch_array(MYSQLI_ASSOC);
+            echo "<td>".$value['quantity']."</td>";
+            echo "<td>".$row['description']."</td>";
+            echo "<td>".$row['genre']."</td>";
+            echo "<td>".$row['format']."</td>";
+            echo "<td>";
+            $imageQRY = $conexion->query("SELECT * FROM `imagenes` WHERE `idprod` = ".$row['idprod']);
+            if($imageQRY){
+                while($img = $imageQRY->fetch_array(MYSQLI_ASSOC)){
+                    echo "<img src='mostrarImagen.php?id=".$img["id"]."' width='200' height='200'><br>";
+                }
+            }
+            echo "</td>";
+            echo "<td><a href=\"editarArticulo.php?id=".$row['idprod']."\">Editar</a><br>
+                    <a href=\"agregarImagenDirecto.php?id=".$row['idprod']."\">Agregar imagen</a><br>
+                    <a href=\"eliminarArticulo.php?id=".$row['idprod']."\">Eliminar</a>";
+            echo "</tr>";
+        }
+    }
+    mysqli_close($conexion);
     ?>
 
 </body>
