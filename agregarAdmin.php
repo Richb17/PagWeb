@@ -31,7 +31,4 @@
 
         //Si no hay error 
     }
-
-    
-
 ?>
