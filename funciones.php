@@ -1,5 +1,7 @@
 <?php
+session_start();
 $ruta = "location:http://localhost/DesWeb%20PHP/Modulos/";
+
 function conectarBD(){
     $conexion = mysqli_connect("localhost", "root", "", "tiendadesweb");
         if (!$conexion) {
@@ -9,4 +11,9 @@ function conectarBD(){
     return $conexion;
 }
 
+function autenticado(){
+    if(!isset($_SESSION["idusuario"])){
+        header("location:http://localhost/DesWeb%20PHP/Modulos/Portada.php");
+    }
+}
 ?>

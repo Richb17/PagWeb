@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include("funciones.php");
     $msg = "";
     //Validar si el usuario está autenticado

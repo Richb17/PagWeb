@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include("funciones.php");
     $msg = "";
     if(isset($_GET['err']) && $_GET['err'] != ""){
