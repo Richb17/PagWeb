@@ -1,29 +1,12 @@
 <?php
-    session_start();
     include("funciones.php");
     $msg = "";
-    if(!isset($_SESSION["idusuario"])){
-        header($ruta."Portada.php");
+    if(isset($_GET['err']) && $_GET['err'] != ""){
+        if($_GET['err'] == "0") $msg = "Se subió el archivo correctamente";
+        if($_GET['err'] == "1") $msg = "Se debe utilizar el formulario de registro";
+        if($_GET['err'] == "2") $msg = "Se deben llenar todos los campos";
+        if($_GET['err'] == "3") $msg = "No se encontró el producto que se especifico";
     }
-    else{
-        if($_SESSION['role'] == 1){
-            header($ruta."Portada.php");
-        }
-        else{
-            if(!isset($_POST['album']) || !isset($_POST['formato']) || !isset($_POST['imagen']) || !isset($_POST['titulo'])){
-                $msg = "Por favor llenar el formulario";
-                header($ruta."subirImagen.php");
-            }
-            else if($_POST['album']== "" || $_POST['formato']=="" || $_POST['imagen']=="" || $_POST['titulo']==""){
-                $msg = "Algún valor del formulario se envio vacio, favor de llenar todos los campos";
-                header($ruta."subirImagen.php");
-            }
-            else{
-                
-            }
-        }
-    }
-    
 ?>
 <html lang="es">
 <head>
@@ -49,7 +32,7 @@
 </head>
 <body>
     <h1>Sistema de control de archivos</h1>
-    <form method="post" enctype="multipart/form-data" action="subirImagen.php" onsubmit="return validaFRM()">
+    <form method="post" enctype="multipart/form-data" action="registraImagen.php" onsubmit="return validaFRM()">
         <h3>Formulario de subida de imagenes</h3>
 
         <?php 
