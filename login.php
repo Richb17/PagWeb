@@ -1,5 +1,4 @@
 <?php 
-session_start();
 include("funciones.php");
 $msg = "";
 if(isset($_POST['txtUsuario']) && isset($_POST['txtPwd'])){
