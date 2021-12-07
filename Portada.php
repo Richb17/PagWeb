@@ -68,19 +68,10 @@ include("funciones.php");
             echo "<td>".$row['idprod']."</td>";
             echo "<td>".$row['albumname']."</td>";
             echo "<td>".$row['artistname']."</td>";
-            if($row['iddiscount'] == NULL){
-                echo "<td>".$row['prices']."</td>";
-            }
-            else{
-                $resu = $conexion->query("SELECT `discount` FROM `descuentos` WHERE `id` = ".$row['iddiscount'].";");
-                $disc = $resu->fetch_array(MYSQLI_ASSOC);
-                $descuento = $disc['discount'];
-                $precioFinal = $row['prices'] * (1-$descuento);
-                echo "<td>$precioFinal</td>";
-            }
-            $stock = $conexion->query("SELECT `quantity` FROM `stock` WHERE `id` = ".$row['idstock'].";");
-            $value = $stock->fetch_array(MYSQLI_ASSOC);
-            echo "<td>".$value['quantity']."</td>";
+            $precio = precioDescuentoItem($row['idprod']);
+            echo "<td>$precio</td>";
+            $value = conseguirStock($row['idprod']);
+            echo "<td>".$value."</td>";
             echo "<td>".$row['description']."</td>";
             echo "<td>".$row['genre']."</td>";
             echo "<td>".$row['format']."</td>";
@@ -101,10 +92,11 @@ include("funciones.php");
             }
             else if (isset($_SESSION['role']) && $_SESSION['role'] == 1){
                 echo "<td><a href=\"comprar.php?id=".$row['idprod']."\">Comprar ahora</a><br>
-                          <a href=\"agregarCarrito.php?id=".$row['idprod']."\"&ubi=\"Portada.php\">Agregar a mi carrito</a></td>";
+                          <a href=\"agregarCarrito.php?id=".$row['idprod']."\">Agregar a mi carrito</a></td>";
             }
             echo "</tr>";
         }
+        echo "</table>";
     }
     mysqli_close($conexion);
     ?>
