@@ -60,7 +60,7 @@ if(isset($_GET['err']) && $_GET['err'] != ""){
     <?php
     $resCarrito =  $conexion->query("SELECT * FROM `carritos` WHERE `id_user` = ".$_SESSION['idusuario']);
     
-    if($resCarrito){
+    if(mysqli_num_rows($resCarrito)>0){
         $carrito = $resCarrito->fetch_array(MYSQLI_ASSOC);
         extract($carrito);
         if($discountactive){
@@ -85,7 +85,7 @@ if(isset($_GET['err']) && $_GET['err'] != ""){
                 echo "<td>".$row2['artistname']."</td>";
                 $precio = precioDescuentoItem($row1['idprod']);
                 echo "<td>$precio</td>";
-                echo "<td>".$row1['quantity']." <a href=\"sumaRestaCarrito.php?id=".$row1['idprod']."&band=1\"> +++ </a> <a href=\"sumaRestaCarrito.php?id=".$row1['idprod']."&band=0\"> --- </a></td>";
+                echo "<td>".$row1['quantity']." <a href=\"sumaRestaCarrito.php?idCart=$id&idProd=".$row1['idprod']."&band=1\"> +++ </a> <a href=\"sumaRestaCarrito.php?idCart=$id&idProd=".$row1['idprod']."&band=0\"> --- </a></td>";
                 echo "<td>".$row2['format']."</td>";
                 echo "<td>";
                 $imageQRY = $conexion->query("SELECT * FROM `imagenes` WHERE `idprod` = ".$row1['idprod']);
@@ -123,6 +123,9 @@ if(isset($_GET['err']) && $_GET['err'] != ""){
         echo "</tr>";
         echo "</table>";
         mysqli_close($conexion);
+    }
+    else{
+        echo "<h3>No hay un carrito para mostrar</h3>";
     }
     ?>
 </body>

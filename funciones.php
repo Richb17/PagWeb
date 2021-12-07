@@ -40,7 +40,7 @@ function conseguirStock($idprod){
 
 function comprobarStockUnPaso($idprod, $qty){
     $stock = conseguirStock($idprod);
-    if( ($stock - $qty) > 0 ){
+    if( ($stock - $qty) >= 0 ){
         return true;
     }
     return false;
@@ -48,7 +48,7 @@ function comprobarStockUnPaso($idprod, $qty){
 
 function comprobarStockBatch($idprod, $qty){
     $stock = conseguirStock($idprod);
-    if( ($stock - $qty) > 0 ){
+    if( ($stock - $qty) >= 0 ){
         return $qty;
     }
     else{

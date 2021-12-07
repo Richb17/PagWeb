@@ -43,7 +43,7 @@ if ($busqueda!=''){
         }
         echo "<td>Compra-Venta</td>";
         echo "</tr>";
-        while($row = $res->fetch_array(MYSQLI_ASSOC)){
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
             echo "<td>".$row['idprod']."</td>";
             echo "<td>".$row['albumname']."</td>";
             echo "<td>".$row['artistname']."</td>";

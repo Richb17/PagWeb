@@ -10,13 +10,14 @@ include("funciones.php");
     <title>Portada</title>
 </head>
 <body>
-    <h1>Sistema de control de archivos</h1>
+    <h1>Portada</h1>
 
     <?php 
     //Autenticación
     if(isset($_SESSION['username'])){
         echo "<h2>Bienvenido ". $_SESSION['username']."</h2>";
         echo "<div> <a href=\"cambiarPwd.php\"> Cambiar contraseña </a> || <a href=\"logout.php\">Cerrar sesión</a> || <a href=\"verCarrito.php\">Ver Carrito</a></div>";
+        echo "<div> </div>";
         if($_SESSION['role'] == 2){
             echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
             echo "<a href=\"subirImagen.php\"> Subir una nueva imagen al sistema </a><br>";
