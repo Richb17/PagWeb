@@ -57,15 +57,14 @@
             <option value="Cassete">Cassete</option>
         </select><br>
         <label for="genero">Seleccione el genero principal del producto:</label>
-        <select name="genero" id="genero">
-            <option value="Pop">Pop</option>
-            <option value="Pop Rock">Pop Rock</option>
-            <option value="Alternativo">Alternativo</option>
-            <option value="R&B">R&B</option>
-            <option value="Rock">Rock</option>
-            <option value="Rap">Rap</option>
-            <option value="Urbano">Urbano</option>
-            <option value="Metal">Metal</option>
+        <select name="genero" id="genero"> Seleccione
+            <?php 
+                $conexion = conectarBD();
+                $res = $conexion->query("SELECT * FROM `generoscat`");
+                while($gen = $res->fetch_array(MYSQLI_ASSOC)){
+                    echo "<option value=\"".$gen['name']."\">".$gen['name']."</option>";
+                }
+            ?>
         </select><br>
         <input type="hidden" id="nombreStock" name="nombreStock">
         Descripción del árticulo: <input type="text" id="descripcion" name = "descripcion"><br>

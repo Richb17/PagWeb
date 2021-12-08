@@ -16,13 +16,14 @@ include("funciones.php");
     //Autenticación
     if(isset($_SESSION['username'])){
         echo "<h2>Bienvenido ". $_SESSION['username']."</h2>";
-        echo "<div> <a href=\"cambiarPwd.php\"> Cambiar contraseña </a> || <a href=\"logout.php\">Cerrar sesión</a> || <a href=\"verCarrito.php\">Ver Carrito</a></div>";
+        echo "<div> <a href=\"cambiarPwd.php\"> Cambiar contraseña </a> || <a href=\"logout.php\">Cerrar sesión</a> || <a href=\"verCarrito.php\">Ver Carrito</a></div> || <a href=\"mostrarPedidos.php\">Ver Pedidos</a></div>";
         echo "<div> </div>";
         if($_SESSION['role'] == 2){
             echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
             echo "<a href=\"subirImagen.php\"> Subir una nueva imagen al sistema </a><br>";
+            echo "<a href=\"agregarGenero.php\"> Agregar un nuevo género al cátalogo </a><br>";
             echo "<a href=\"registroDescuento.php\"> Agregar nuevo descuento </a><br>";
-            echo "<a href=\"registroAdmin.php\"> Registrar a un nuevo administrador </a><br>";    
+            echo "<a href=\"registroAdmin.php\"> Registrar a un nuevo administrador </a><br>";  
         }
         else if($_SESSION['role'] == 3){
             echo "<a href=\"agregarProducto.php\"> Subir un nuevo articulo al sistema </a><br>";
@@ -72,7 +73,8 @@ include("funciones.php");
             $precio = precioDescuentoItem($row['idprod']);
             echo "<td>$precio</td>";
             $value = conseguirStock($row['idprod']);
-            echo "<td>".$value."</td>";
+            if($value == 0) echo "<td>AGOTADO</td>";
+            else echo "<td>".$value."</td>";
             echo "<td>".$row['description']."</td>";
             echo "<td>".$row['genre']."</td>";
             echo "<td>".$row['format']."</td>";
@@ -92,8 +94,8 @@ include("funciones.php");
                             <a href=\"retirarDescuento.php?id=".$row['idprod']."\">Retirar descuento</a></td>";
             }
             else if (isset($_SESSION['role']) && $_SESSION['role'] == 1){
-                echo "<td><a href=\"comprar.php?id=".$row['idprod']."\">Comprar ahora</a><br>
-                          <a href=\"agregarCarrito.php?id=".$row['idprod']."\">Agregar a mi carrito</a></td>";
+                echo "<td><a href=\"comprarAhora.php?id=".$row['idprod']."&ubi=Portada\">Comprar ahora</a><br>
+                          <a href=\"agregarCarrito.php?ubi=Portada&id=".$row['idprod']."\">Agregar a mi carrito</a></td>";
             }
             echo "</tr>";
         }

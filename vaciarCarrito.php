@@ -14,14 +14,6 @@
         header($ruta."Portada.php");
     }
     
-    $res = $conexion->query("SELECT `idprod`, `quantity` FROM `item_carrito` WHERE `idCart` = ".$_GET['id']);
-    if(mysqli_num_rows($res)>0){
-        while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            actualizarStock($row['idprod'], $row['quantity']);
-        }
-    }
-
-    $conexion->query("UPDATE `carritos` SET `total` = 0.0 WHERE `id`=".$_GET['id']);
-    $conexion->query("DELETE FROM `item_carrito` WHERE `idCart`=".$_GET['id']);
+    vaciarCarrito($_GET['id']);
     header($ruta."verCarrito.php");
 ?>
