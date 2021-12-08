@@ -51,7 +51,6 @@ if(isset($_GET['err']) && $_GET['err'] != ""){
                 echo "Ingrese el nombre del álbum: <input type=\"text\" id=\"album\" name = \"album\" value=\"".$row['albumname']."\"><br>";
                 echo "Ingrese el nombre del artista: <input type=\"text\" id=\"artista\" name = \"artista\" value=\"".$row['artistname']."\"><br>";
                 echo "Ingrese el precio del árticulo: <input type=\"number\" id=\"precio\" required name=\"precio\" min=\"0\" value=\"".$row['prices']."\" step=\"0.01\"><br>";
-                echo "Ingrese el género principal del árticulo: <input type=\"text\" id=\"genero\" name = \"genero\" value=\"".$row['genre']."\"><br>";
                 echo "Descripción del árticulo: <input type=\"text\" id=\"descripcion\" name = \"descripcion\" value=\"".$row['description']."\"><br>";
                 $stock = $conexion->query("SELECT `quantity` FROM `stock` WHERE `id` = ".$row['idstock'].";");
                 $value = $stock->fetch_array(MYSQLI_ASSOC);
