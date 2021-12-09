@@ -156,4 +156,33 @@ function ordenarArticulos($ord, $conexion, $limit){
     return $res;
 }
 
+function ordenarArticulosGenero($ord, $conexion, $limit, $gen){
+    switch($ord){
+        case 0:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre` = '$gen' ORDER BY `artistname` ASC LIMIT $limit");
+            break;
+        case 1:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre` = '$gen' ORDER BY `artistname` DESC LIMIT $limit");
+            break;
+        case 2:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre` = '$gen' ORDER BY `albumname` ASC LIMIT $limit");
+            break;
+        case 3:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre` = '$gen' ORDER BY `albumname` DESC LIMIT $limit");
+            break;
+        case 4:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre` = '$gen' ORDER BY `prices` DESC LIMIT $limit");
+            break;
+        case 5:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='CD' AND `genre` = '$gen' LIMIT $limit");
+            break;
+        case 6:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='Vinilo' AND `genre` = '$gen' LIMIT $limit");
+            break;
+        case 7:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='Cassete' AND `genre` = '$gen' LIMIT $limit");
+            break;
+    }
+    return $res;
+}
 ?>

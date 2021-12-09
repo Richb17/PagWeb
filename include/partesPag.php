@@ -39,14 +39,6 @@ function navbar(){
         echo "<a class=\"dropdown-item\" href=\"agregarGenero.php\">Agregar Genero</a>";
     }
     echo "  </div>
-    </li>
-    <li class=\"nav-item dropdown\">
-        <a class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Formatos</a>
-        <div class=\"dropdown-menu\">
-            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=Vinilo\">Vinilo</a>
-            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=CD\">CD</a>
-            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=Cassete\">Cassete</a>
-        </div>
     </li>";
     if(!isset($_SESSION['role'])){
         echo "  <li class=\"nav-item\">
@@ -61,8 +53,7 @@ function navbar(){
             echo "  <li class=\"nav-item dropdown\">
                         <a class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Agregar</a>
                         <div class=\"dropdown-menu\">
-                            <a class=\"dropdown-item\" href=\"agregarProducto.php\">Nuevo Producto</a>
-                            <a class=\"dropdown-item\" href=\"subirImagen.php\">Nueva Imagen</a>";
+                            <a class=\"dropdown-item\" href=\"agregarProducto.php\">Nuevo Producto</a>";
             if($_SESSION['role']==2){ 
                 echo "<a class=\"dropdown-item\" href=\"registroAdmin.php\">Nuevo usuario</a>";
             }
@@ -125,7 +116,7 @@ function prodCard($idprod, $ubi){
         <a href=\"verProducto.php?id=$idprod&ubi=$ubi\"> <img src='mostrarImagen.php?id=".$img["id"]."' class=\"card-img-top rounded mx-auto d-block img_prod_min\"></a>
         <div class=\"card-body\">
             <a href=\"verProducto.php?id=$idprod&ubi=$ubi\"> <h4 class=\"card-title\">$albumname</h4></a>
-            <h5 class=\"card-subtitle\">$artistname - $format</h5>
+            <h5 class=\"card-subtitle\">$artistname - $format - $genre</h5>
             <h6 class=\"card-text\">\$$precio</h6>
             <div class=\"container\">";
     if(isset($_SESSION['role'])){

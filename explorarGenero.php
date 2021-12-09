@@ -16,7 +16,7 @@ include("include/partesPag.php");
 <body>
     <?php
     navbar();
-    echo "<div class=\"container\"><h2 style=\"padding-top:100px;\">Todos nuestros productos</h2></div>";
+    echo "<div class=\"container\"><h2 style=\"padding-top:100px;\">".$_GET['name']."</h2></div>"; 
     $conexion = conectarBD();
     ?>
     <div class="container-fluid" style="padding:40px 100px 70px;">
@@ -27,15 +27,17 @@ include("include/partesPag.php");
                         Ordenar Por:
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="allProductos.php?ord=0">Arista (A-Z)</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=1">Arista (Z-A)</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=2">Album (A-Z)</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=3">Album (Z-A)</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=4">Precio desc.</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php">Precio asc.</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=5">Solo CD's</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=6">Solo Vinilos</a></li>
-                        <li><a class="dropdown-item" href="allProductos.php?ord=7">Solo Cassetes</a></li>
+                        <?php
+                        echo "<li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=0&name=".$_GET['name']."\">Arista (A-Z)</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=1&name=".$_GET['name']."\">Arista (Z-A)</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=2&name=".$_GET['name']."\">Album (A-Z)</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=3&name=".$_GET['name']."\">Album (Z-A)</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=4&name=".$_GET['name']."\">Precio desc.</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?name=".$_GET['name']."\">Precio asc.</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=5&name=".$_GET['name']."\">Solo CD's</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=6&name=".$_GET['name']."\">Solo Vinilos</a></li>
+                        <li><a class=\"dropdown-item\" href=\"explorarGenero.php?ord=7&name=".$_GET['name']."\">Solo Cassetes</a></li>"
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -46,15 +48,18 @@ include("include/partesPag.php");
     $rs = $tP->fetch_array();
     $total = $rs[0];
     if(isset($_GET['ord'])){
-        $res = ordenarArticulos($_GET['ord'],$conexion,$total);
+        $res = ordenarArticulosGenero($_GET['ord'],$conexion,$total, $_GET['name']);
     }
     else{
-        $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `prices` LIMIT $total");
+        $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `genre`='".$_GET['name']."' ORDER BY `prices` LIMIT $total");
     }
-    if($res){
+    if(mysqli_num_rows($res)>0){
         while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            prodCard($row['idprod'],"allProductos");
+            prodCard($row['idprod'],"explorarGenero");
         }
+    }
+    else{
+        echo "<h4>No hay productos que coincidan sus especificaciones</h4";
     }
     mysqli_close($conexion);
     echo "
