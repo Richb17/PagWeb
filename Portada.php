@@ -81,7 +81,7 @@ include("include/partesPag.php");
             </div>
         </div>
     </div>
-    <div class="container text-center" style="padding-top:40px;"><h3>Destacados</h3></div>
+    <div class="container text-center" style="padding-top:40px; "><h3>Destacados</h3></div>
     <div class="container-fluid" style="padding:40px 100px 70px;">
         <div class="row justify-content-start">
             <div class="col-3">

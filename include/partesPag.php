@@ -12,7 +12,7 @@ function navbar(){
     echo "<header>";
     echo "<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top bg-dark\">
     <div class=\"container-fluid\">
-        <a class=\"navbar-brand\" href=\"#\">SoundStream</a>
+        <a class=\"navbar-brand\" href=\"Portada.php\">SoundStream</a>
         <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarColor02\" aria-controls=\"navbarColor02\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
       <span class=\"navbar-toggler-icon\"></span>
     </button>
@@ -20,11 +20,11 @@ function navbar(){
         <div class=\"collapse navbar-collapse\" id=\"navbarColor02\">
             <ul class=\"navbar-nav me-auto\">
                 <li class=\"nav-item\">
-                    <a class=\"nav-link active\" href=\"#\">Inicio
+                    <a class=\"nav-link active\" href=\"Portada.php\">Inicio
             <span class=\"visually-hidden\">(current)</span>
           </a></li>";
     echo   "<li class=\"nav-item\">
-                <a class=\"nav-link\" href=\"#\">Productos</a>
+                <a class=\"nav-link\" href=\"allProductos.php\">Productos</a>
             </li>";
     echo "<li class=\"nav-item dropdown\">
             <a class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Generos</a>
@@ -32,7 +32,7 @@ function navbar(){
     $conexion = conectar();
     $rs = $conexion->query("SELECT `name` FROM `generoscat`");
     while($res = $rs->fetch_array(MYSQLI_ASSOC)){
-        echo "<a class=\"dropdown-item\" href=\"explorar.php?name=".$res['name']."\">".$res['name']."</a>";
+        echo "<a class=\"dropdown-item\" href=\"explorarGenero.php?name=".$res['name']."\">".$res['name']."</a>";
     }
     if(isset($_SESSION['role']) && $_SESSION['role']>1){
         echo "<div class=\"dropdown-divider\"></div>";
@@ -43,19 +43,19 @@ function navbar(){
     <li class=\"nav-item dropdown\">
         <a class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Formatos</a>
         <div class=\"dropdown-menu\">
-            <a class=\"dropdown-item\" href=\"#\">Vinilo</a>
-            <a class=\"dropdown-item\" href=\"#\">CD</a>
-            <a class=\"dropdown-item\" href=\"#\">Cassete</a>
+            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=Vinilo\">Vinilo</a>
+            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=CD\">CD</a>
+            <a class=\"dropdown-item\" href=\"explorarFormato.php?f=Cassete\">Cassete</a>
         </div>
     </li>";
     if(!isset($_SESSION['role'])){
         echo "  <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Login</a>
+                    <a class=\"nav-link\" href=\"#\">Iniciar Sesión o Registrarse</a>
                 </li>";
     }
     else{
         echo "  <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Perfil</a>
+                    <a class=\"nav-link\" href=\"perfil.php\">Perfil</a>
                 </li>";
         if($_SESSION['role']>1){
             echo "  <li class=\"nav-item dropdown\">
