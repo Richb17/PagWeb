@@ -1,4 +1,5 @@
 <?php
+    include("include/funciones.php");
     $msg = "";
     if(isset($_GET['err']) && $_GET['err'] != ""){
         if($_GET['err'] == "0") $msg = "Se registro correctamente el usuario";

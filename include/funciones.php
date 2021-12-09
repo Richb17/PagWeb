@@ -17,13 +17,6 @@ function autenticado(){
     }
 }
 
-function crearBarraBusqueda(){
-    echo "<FORM METHOD='post' ACTION=\"buscar.php\">";
-    echo "Buscar: <INPUT TYPE=\"text\" id='busqueda' name='busqueda'>";
-    echo "<input type=\"submit\" value=\"Buscar\">";
-    echo "</FORM>";
-}
-
 function regresarUltimaUbi($ubi){
     header("location:http://localhost/DesWeb%20PHP/Modulos/".$ubi.".php");
 }
