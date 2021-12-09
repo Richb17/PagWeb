@@ -1,5 +1,5 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['txtUsuario']) || !isset($_GET['txtPwd'])|| 
         !isset($_GET['txtConfirm']) || !isset($_GET['txtEmail'])||

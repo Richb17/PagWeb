@@ -1,6 +1,6 @@
 
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     autenticado();
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['code']) || !isset($_GET['descripcion'])|| 

@@ -122,7 +122,38 @@ function vaciarCarrito($idCar){
             actualizarStock($row['idprod'], $row['quantity']);
         }
     }
-    $conexion->query("UPDATE `carritos` SET `total` = 0.0, `discountactive`='0', `descuentoaplicado`=0.0 WHERE `id`=".$_GET['id']);
-    $conexion->query("DELETE FROM `item_carrito` WHERE `idCart`=".$_GET['id']);
+    $conexion->query("UPDATE `carritos` SET `total` = 0.0, `discountactive`='0', `descuentoaplicado`=0.0 WHERE `id`=$idCar");
+    $conexion->query("DELETE FROM `item_carrito` WHERE `idCart`=$idCar");
 }
+
+function ordenarArticulos($ord, $conexion, $limit){
+    switch($ord){
+        case 0:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `artistname` ASC LIMIT $limit");
+            break;
+        case 1:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `artistname` DESC LIMIT $limit");
+            break;
+        case 2:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `albumname` ASC LIMIT $limit");
+            break;
+        case 3:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `albumname` DESC LIMIT $limit");
+            break;
+        case 4:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` ORDER BY `prices` DESC LIMIT $limit");
+            break;
+        case 5:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='CD' LIMIT $limit");
+            break;
+        case 6:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='Vinilo' LIMIT $limit");
+            break;
+        case 7:
+            $res = $conexion->query("SELECT `idprod` FROM `productos` WHERE `format`='Cassete' LIMIT $limit");
+            break;
+    }
+    return $res;
+}
+
 ?>

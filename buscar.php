@@ -1,5 +1,5 @@
 <?php
-include("funciones.php");
+include("include/funciones.php");
 //cadena de conexion
 $conexion = conectarBD();
 //DEBO PREPARAR LOS TEXTOS QUE VOY A BUSCAR si la cadena existe

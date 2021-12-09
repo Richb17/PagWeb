@@ -1,5 +1,5 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     $msg = "";
     if(isset($_GET['err']) && $_GET['err'] != ""){
         if($_GET['err'] == "0") $msg = "Se subió el archivo correctamente";

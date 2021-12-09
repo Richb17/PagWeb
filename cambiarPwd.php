@@ -1,5 +1,5 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     $msg = "";
     //Validar si el usuario está autenticado
     if(!isset($_SESSION['idusuario'])){

@@ -1,5 +1,5 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     autenticado();
     
     if($_GET['idProd']==""){

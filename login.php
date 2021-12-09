@@ -1,5 +1,5 @@
 <?php 
-include("funciones.php");
+include("include/funciones.php");
 $msg = "";
 if(isset($_POST['txtUsuario']) && isset($_POST['txtPwd'])){
     if($_POST['txtUsuario'] != "" && $_POST['txtPwd'] != ""){ 

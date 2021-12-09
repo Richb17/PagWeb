@@ -1,5 +1,5 @@
 <?php
-include("funciones.php");
+include("include/funciones.php");
 autenticado();
 
 if( !isset($_POST['metodo']) || !isset($_POST['idCart']) ||
@@ -23,6 +23,8 @@ else{
         extract($row2);
         $texto = $texto."$albumname de $artistname, $format - \$$prices x $qty ||\n";
     }
+    echo "INSERT INTO `detalles_pedido`(`id`, `id_user`, `total`, `id_pay`, `created_at`, `iddireccion`, `descripcion`, `status`) VALUES 
+                                        (NULL,'".$_SESSION['idusuario']."','$total','$metodo',now(),$idDireccion,'$texto','Pagado')";
     $conexion->query("INSERT INTO `detalles_pedido`(`id`, `id_user`, `total`, `id_pay`, `created_at`, `iddireccion`, `descripcion`, `status`) VALUES 
                                         (NULL,'".$_SESSION['idusuario']."','$total','$metodo',now(),$idDireccion,'$texto','Pagado')");
     vaciarCarrito($idCart);

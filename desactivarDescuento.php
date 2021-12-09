@@ -1,5 +1,5 @@
 <?php
-include("funciones.php");
+include("include/funciones.php");
 autenticado();
 $conexion = conectarBD();
 $res = $conexion->query("SELECT `discountactive` FROM `carritos` WHERE `id_user`=".$_SESSION['idusuario']);

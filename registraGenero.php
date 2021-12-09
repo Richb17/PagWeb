@@ -1,5 +1,5 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['genero']) ){
             header($ruta."agregarGenero.php?err=1");
