@@ -5,10 +5,10 @@
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['code']) || !isset($_GET['descripcion'])|| 
         !isset($_GET['descuento'])){
-            header($ruta."registroAdmin.php?err=1");
+            //header($ruta."registroAdmin.php?err=1");
     }
     else if( $_GET['code'] == "" || $_GET['descuento'] == ""){
-        header($ruta."registroAdmin.php?err=2");
+        //header($ruta."registroAdmin.php?err=2");
     }
     else{
         extract($_GET);
@@ -19,7 +19,11 @@
                     ('NULL','$code','$descripcion','$discount');";
         $rs = mysqli_query($conexion, $consulta);
         mysqli_close($conexion);
-        
-        header($ruta."registroDescuento.php?err=0");
+        if(isset($_GET['idprod']) && $_GET['idprod'] != ""){
+            header($ruta."seleccionarDescuento.php?id=$idprod&ubi=$ubi");
+        }else{
+            header($ruta."seleccionarDescuento.php");
+        }
+         
     }
 ?>

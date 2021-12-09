@@ -18,7 +18,7 @@ function autenticado(){
 }
 
 function regresarUltimaUbi($ubi){
-    header("location:http://localhost/DesWeb%20PHP/Modulos/".$ubi.".php");
+    header("location:http://localhost/DesWeb%20PHP/Modulos/".$ubi."");
 }
 
 function conseguirStock($idprod){

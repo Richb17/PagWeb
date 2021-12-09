@@ -5,11 +5,11 @@
     if( !isset($_GET['album']) || !isset($_GET['artista'])|| 
         !isset($_GET['stock']) || !isset($_GET['descripcion'])||
         !isset($_GET['idprod'])){
-            header($ruta."agregarProducto.php?err=1");
+            header($ruta."verProducto.php?id=".$_GET['idprod']."&err=1&ubi=".$_GET['ubi']);
     }
     else if( $_GET['album'] == "" || $_GET['artista'] == "" || 
         $_GET['precio'] == "" || $_GET['stock'] == ""){
-        header($ruta."agregarProducto.php?err=2");
+        header($ruta."verProducto.php?id=".$_GET['idprod']."&err=2&ubi=".$_GET['ubi']);
     }
     else{
         extract($_GET);
@@ -26,6 +26,6 @@
         
         mysqli_close($conexion);
         
-        header($ruta."editarArticulo.php?err=0&id=$idprod");
+        header($ruta."verProducto.php?id=".$_GET['idprod']."&err=0&ubi=".$_GET['ubi']);
     }
 ?>

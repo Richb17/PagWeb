@@ -114,7 +114,7 @@ include("include/partesPag.php");
     }
     if($res){
         while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            prodCard($row['idprod'],"Portada");
+            prodCard($row['idprod'],"Portada.php");
         }
         /* echo "<table>";
         echo "<tr>";

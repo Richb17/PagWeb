@@ -58,7 +58,7 @@ function navbar()
             if ($_SESSION['role'] == 2) {
                 echo "<a class=\"dropdown-item\" href=\"registroAdmin.php\">Nuevo usuario</a>";
             }
-            echo "          <a class=\"dropdown-item\" href=\"registroDescuento.php\">Nuevo descuento</a>
+            echo "          <a class=\"dropdown-item\" href=\"seleccionarDescuento.php\">Nuevo descuento</a>
                         </div>
                     </li>";
         } else {
@@ -125,7 +125,7 @@ function prodCard($idprod, $ubi)
         if ($_SESSION['role'] > 1) {
             echo
             "<div class=\"row\">
-                <div class=\"col\"><a href=\"editarArticulo.php?id=$idprod&ubi=$ubi\" class=\"btn btn-primary\">Editar producto</a></div>
+                <div class=\"col\"><a href=\"verProducto.php?id=$idprod&ubi=$ubi\" class=\"btn btn-primary\">Editar producto</a></div>
                 <div class=\"col\"><a href=\"eliminarArticulo.php?id=$idprod&ubi=$ubi\" class=\"btn btn-danger\">Eliminar producto</a></div>";
         } else {
             echo
@@ -153,7 +153,7 @@ function itemCarrusel($ids, $conexion, $n)
         <div class=\"carousel-item active\">
             <img src=\"mostrarImagen.php?id=" . $img["id"] . "\" class=\"d-block w-100 \">
             <div class=\"carousel-caption d-none d-md-block\" >
-                <a href=\"verProducto.php?id=" . $ids['idprod'] . "&ubi=portada\"> <h5>" . $ids['albumname'] . "</h5></a>
+                <a href=\"verProducto.php?id=" . $ids['idprod'] . "&ubi=portada.php\"> <h5>" . $ids['albumname'] . "</h5></a>
                 <h6>" . $ids['artistname'] . "</h6>
                 <p>Recien añadido</p>
             </div>
@@ -163,7 +163,7 @@ function itemCarrusel($ids, $conexion, $n)
         <div class=\"carousel-item\">
             <img src=\"mostrarImagen.php?id=" . $img["id"] . "\" class=\"d-block w-100 \">
             <div class=\"carousel-caption d-none d-md-block\" >
-                <a href=\"verProducto.php?id=" . $ids['idprod'] . "&ubi=portada\"> <h5>" . $ids['albumname'] . "</h5></a>
+                <a href=\"verProducto.php?id=" . $ids['idprod'] . "&ubi=portada.php\"> <h5>" . $ids['albumname'] . "</h5></a>
                 <h6>" . $ids['artistname'] . "</h6>
                 <p>Recien añadido</p>
             </div>
@@ -171,68 +171,39 @@ function itemCarrusel($ids, $conexion, $n)
     }
 }
 
-function mostrarComentariosProducto($idProd, $conexion)
+function mostrarComentariosProducto($idprod, $conexion)
 {
-    $res = $conexion->query("SELECT r.username, r.vote, r.reviewtext, p.albumname FROM `reseña` as `r`INNER JOIN productos as p ON p.idprod = r.idprod WHERE r.idprod=$idProd;");
+    $res = $conexion->query("SELECT r.idreview, r.username, r.vote, r.reviewtext, r.modified_at, p.albumname FROM `reseña` as `r`INNER JOIN productos as p ON p.idprod = r.idprod WHERE r.idprod=$idprod;");
     while ($row = $res->fetch_array(MYSQLI_ASSOC)) {
 ?>
-        <div class="card" style="width: 768;">
-            <div class="card-body">
-                <?php
-                extract($row);
-                echo "<h4 class=\"card-title\">$albumname</h4>";
-                echo "<h5 class=\"card-subtitle\">$username</h5>";
-                if ($vote == 0) {
-                    echo "<h6>No lo recomiendo</h6>";
-                } else {
-                    echo "<h6>Recomendado</h6>";
-                }
-                echo "<p class=\"card-text\">$reviewtext</p>";
-                if ($_SESSION['role'] > 1 || $_SESSION['username'] == $username) {
-                ?>
-                    <a href="editarRes.php" class="btn btn-primary">Editar</a>
-                    <a href="eliminarRes.php" class="btn btn-danger">Eliminar</a>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
-    <?php
-    }
-}
-
-function mostrarComentariosUsuario($username, $conexion)
-{
-    $res = $conexion->query("SELECT `idreview`,`idprod`,`vote`,`reviewtext` FROM `reseña` WHERE `username`='$username'");
-    while ($row = $res->fetch_array(MYSQLI_ASSOC)) {
-    ?>
-        <div class="card" style="width: 768;">
-            <div class="card-body">
-                <?php
-                $rs = $conexion->query("SELECT `albumname` FROM `productos` WHERE `idprod` =" . $row['idprod']);
-                $idP = $rs->fetch_array(MYSQLI_ASSOC);
-                echo "<h4 class=\"card-title\">" . $idP['albumname'] . "</h4>";
-                echo "<h5 class=\"card-subtitle\">$username</h5>";
-                if ($row['vote'] == 0) {
-                    echo "<h6>No lo recomiendo</h6>";
-                } else {
-                    echo "<h6>Recomendado</h6>";
-                }
-                echo "<p class=\"card-text\">" . $row['reviewtext'] . "</p>";
-
-                echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal" . $row['idprod'] . "\">";
-                ?>
+        <div style="padding: 20px 0px 20px;">
+    <div class="card" style="width: 768;">
+        <div class="card-body">
+            <?php
+            extract($row);
+            echo "<h3 class=\"card-title\">$albumname</h3>";
+            echo "<h4 class=\"card-subtitle\">$username</h4>";
+            if ($vote == 0) {
+                echo "<h5>No lo recomiendo</h5>";
+            } else {
+                echo "<h5>Recomendado</h5>";
+            }
+            echo "<h6 class=\"card-subtitle\">Ultima edición: $modified_at</h6><br>";
+            echo "<p class=\"card-text\">$reviewtext</p>";
+            if ($_SESSION['role'] > 1 || $_SESSION['username'] == $username) {
+                echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal$idprod\">";
+            ?>
                 Editar
                 </button>
                 <?php
-                echo "<div class=\"modal fade\" id=\"editModal" . $row['idprod'] . "\" tabindex=\"-1\" aria-labelledby=\"editLabel" . $row['idprod'] . "\" aria-hidden=\"true\">";
+                echo "<div class=\"modal fade\" id=\"editModal$idprod\" tabindex=\"-1\" aria-labelledby=\"editLabel$idprod\" aria-hidden=\"true\">";
                 ?>
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form method="post" action="editarRes.php">
                             <div class="modal-header">
                                 <?php
-                                echo "<h5 class=\"modal-title\" id=\"editLabel" . $row['idprod'] . "\">Editar comentario</h5>";
+                                echo "<h5 class=\"modal-title\" id=\"editLabel$idprod\">Editar comentario</h5>";
                                 ?>
 
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -240,17 +211,17 @@ function mostrarComentariosUsuario($username, $conexion)
                             <div class="modal-body">
                                 <div class="form-check">
                                     <?php
-                                    echo "<input class=\"form-check-input\" type=\"checkbox\" value=\"1\" name= \"radioRec\" id=\"radioRec" . $row['idprod'] . "\">
-                                        <label class=\"form-check-label\" for=\"radioRec" . $row['idprod'] . "\">";
+                                    echo "<input class=\"form-check-input\" type=\"checkbox\" value=\"1\" name= \"radioRec\" id=\"radioRec$idprod\">
+                                        <label class=\"form-check-label\" for=\"radioRec$idprod\">";
                                     ?>
                                     Recomendado
                                     </label>
                                 </div>
                                 <?php
-                                echo "<label for=\"txtReview" . $row['idprod'] . "\" class=\"form-label\">Reseña</label>";
-                                echo "<input type=\"text\" name=\"txtReview\" class=\"form-control\" id=\"txtReview" . $row['idprod'] . "\" rows=\"6\" value=\"" . $row['reviewtext'] . "\">";
-                                echo "<input type=\"hidden\" value=\"".$row['idreview']."\" name=\"idReview\" id=\"idReview\">";
-                                echo "<input type=\"hidden\" value=\"perfil\" name=\"ubi\">";
+                                echo "<label for=\"txtReview$idprod\" class=\"form-label\">Reseña</label>";
+                                echo "<input type=\"text\" name=\"txtReview\" class=\"form-control\" id=\"txtReview$idprod\" rows=\"6\" value=\"$reviewtext\">";
+                                echo "<input type=\"hidden\" value=\"$idreview\" name=\"idReview\" id=\"idReview\">";
+                                echo "<input type=\"hidden\" value=\"verProducto.php?id=$idprod\" name=\"ubi\">";
                                 ?>
                             </div>
                             <div class="modal-footer">
@@ -260,8 +231,86 @@ function mostrarComentariosUsuario($username, $conexion)
                         </form>
                     </div>
                 </div>
+
+        </div>
+        <?php
+                echo "<a href=\"eliminarRes.php?un=$username&id=$idprod&ubi=verProducto.php?id=$idprod\" class=\"btn btn-danger\">Eliminar</a>";
+        ?>
+    <?php
+            }
+    ?>
+    </div>
+</div>
+<?php
+    }
+}
+
+function mostrarComentariosUsuario($username, $conexion)
+{
+    $res = $conexion->query("SELECT `idreview`,`idprod`,`vote`,`reviewtext`, `modified_at` FROM `reseña` WHERE `username`='$username'");
+    while ($row = $res->fetch_array(MYSQLI_ASSOC)) {
+    ?>
+        <div style="padding: 20px 0px 20px;">
+            <div class="card" style="width: 768;">
+                <div class="card-body">
+                    <?php
+                    $rs = $conexion->query("SELECT `albumname` FROM `productos` WHERE `idprod` =" . $row['idprod']);
+                    $idP = $rs->fetch_array(MYSQLI_ASSOC);
+                    echo "<h3 class=\"card-title\">" . $idP['albumname'] . "</h3>";
+                    echo "<h4 class=\"card-subtitle\">$username</h4>";
+                    if ($row['vote'] == 0) {
+                        echo "<h5>No lo recomiendo</h5>";
+                    } else {
+                        echo "<h5>Recomendado</h5>";
+                    }
+                    echo "<h6 class=\"card-subtitle\">Ultima edición: ".$row['modified_at']."</h6><br>";
+                    echo "<p class=\"card-text\">" . $row['reviewtext'] . "</p>";
+
+                    echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal" . $row['idprod'] . "\">";
+                    ?>
+                    Editar
+                    </button>
+                    <?php
+                    echo "<div class=\"modal fade\" id=\"editModal" . $row['idprod'] . "\" tabindex=\"-1\" aria-labelledby=\"editLabel" . $row['idprod'] . "\" aria-hidden=\"true\">";
+                    ?>
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" action="editarRes.php">
+                                <div class="modal-header">
+                                    <?php
+                                    echo "<h5 class=\"modal-title\" id=\"editLabel" . $row['idprod'] . "\">Editar comentario</h5>";
+                                    ?>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-check">
+                                        <?php
+                                        echo "<input class=\"form-check-input\" type=\"checkbox\" value=\"1\" name= \"radioRec\" id=\"radioRec" . $row['idprod'] . "\">
+                                        <label class=\"form-check-label\" for=\"radioRec" . $row['idprod'] . "\">";
+                                        ?>
+                                        Recomendado
+                                        </label>
+                                    </div>
+                                    <?php
+                                    echo "<label for=\"txtReview" . $row['idprod'] . "\" class=\"form-label\">Reseña</label>";
+                                    echo "<input type=\"text\" name=\"txtReview\" class=\"form-control\" id=\"txtReview" . $row['idprod'] . "\" rows=\"6\" value=\"" . $row['reviewtext'] . "\">";
+                                    echo "<input type=\"hidden\" value=\"" . $row['idreview'] . "\" name=\"idReview\" id=\"idReview\">";
+                                    echo "<input type=\"hidden\" value=\"perfil.php\" name=\"ubi\">";
+                                    ?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                echo "<a href=\"eliminarRes.php??un=$username&id=" . $row['idprod'] . "&ubi=perfil.php\" class=\"btn btn-danger\">Eliminar</a>";
+                ?>
             </div>
-            <a href="eliminarRes.php" class="btn btn-danger">Eliminar</a>
         </div>
         </div>
 <?php

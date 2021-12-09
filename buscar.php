@@ -50,7 +50,7 @@ if ($busqueda!=''){
     $res = $conexion->query($consulta);
     if(mysqli_num_rows($res)>0){
         while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            prodCard($row['idprod'],"allProductos");
+            prodCard($row['idprod'],"allProductos.php");
         }
     }
     else{

@@ -97,7 +97,7 @@ autenticado();
 
     ?>
     <h2>Registrar nuevo método de pago</h2>
-    <form method="post" action="registrarMetodoPago.php?ubi=selPago" onsubmit="return validaFRM_registrar()">
+    <form method="post" action="registrarMetodoPago.php?ubi=selPago.php" onsubmit="return validaFRM_registrar()">
         Tipo de tarjeta: <select name="tipoP" id="tipoP">
             <option value="">Seleccionar</option>
             <option value="debito">Tarjeta de debito</option>

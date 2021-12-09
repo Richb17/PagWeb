@@ -35,7 +35,6 @@ if (isset($_GET['us_n']) && $_GET['us_n'] != "") {
 
     <?php
     navbar();
-    //Autenticación
     ?>
     <div class="container-fluid" style="padding:100px 0px; max-width: 1468px;">
         <?php echo "<h2 style=\"padding-top:100px;\">" . $_SESSION['username'] . "</h2>" ?>

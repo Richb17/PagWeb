@@ -55,7 +55,7 @@ include("include/partesPag.php");
     }
     if(mysqli_num_rows($res)>0){
         while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            prodCard($row['idprod'],"explorarGenero");
+            prodCard($row['idprod'],"explorarGenero.php");
         }
     }
     else{

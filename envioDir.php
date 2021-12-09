@@ -97,7 +97,7 @@ autenticado();
 
     ?>
 
-    <form method="post" action="registrarDireccion.php?ubi=envioDir" onsubmit="return validaFRM_d()">
+    <form method="post" action="registrarDireccion.php?ubi=envioDir.php" onsubmit="return validaFRM_d()">
         Ingresa la linea 1 de la dirección: <input type="text" id="dir" name = "dir" placeholder="Calle #, Colonia"><br>
         Escribe tu ciudad: <input type="text" id="ciudad" name = "ciudad"><br>
         Escribe tu país: <input type="text" id="pais" name = "pais"><br>

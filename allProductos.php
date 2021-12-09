@@ -53,7 +53,7 @@ include("include/partesPag.php");
     }
     if($res){
         while($row = $res->fetch_array(MYSQLI_ASSOC)){
-            prodCard($row['idprod'],"allProductos");
+            prodCard($row['idprod'],"allProductos.php");
         }
     }
     mysqli_close($conexion);
