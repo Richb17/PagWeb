@@ -62,8 +62,13 @@ function navbar()
                         </div>
                     </li>";
         } else {
+            $conexion = conectar();
+            $consulta = "SELECT sum(i.quantity) FROM `item_carrito` as i INNER JOIN `carritos` as c on i.idcart=c.id WHERE c.id_user = ".$_SESSION['idusuario'].";";
+            $res = $conexion->query($consulta);
+            $rs = mysqli_fetch_array($res);
+            $cantidadCarrito = $rs[0];
             echo "  <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"verCarrito.php\">Ver mi Carrito</a>
+                        <a class=\"nav-link\" href=\"verCarrito.php\">Ver mi Carrito($cantidadCarrito)</a>
                     </li>";
         }
         echo "  <li class=\"nav-item\">
