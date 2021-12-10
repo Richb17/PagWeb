@@ -4,12 +4,15 @@ autenticado();
 
 if( !isset($_POST['metodo']) || !isset($_POST['idCart']) ||
     !isset($_POST['idDireccion']) || !isset($_POST['total'])){
+    echo "ACA";
     header($ruta."Portada.php");
 }
 else if($_POST['metodo']=="" || $_POST['idCart']=="" || $_POST['idDireccion']=="" || $_POST['total']==""){
+    echo "AQUI";
     header($ruta."Portada.php");
 }
 else{
+    echo "ALLA";
     extract($_POST);
     $conexion = conectarBD();
 
