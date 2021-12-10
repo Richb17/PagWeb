@@ -1,15 +1,15 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     autenticado();
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['album']) || !isset($_GET['artista'])|| 
         !isset($_GET['stock']) || !isset($_GET['descripcion'])||
         !isset($_GET['idprod'])){
-            header($ruta."agregarProducto.php?err=1");
+            header($ruta."verProducto.php?id=".$_GET['idprod']."&err=1&ubi=".$_GET['ubi']);
     }
     else if( $_GET['album'] == "" || $_GET['artista'] == "" || 
         $_GET['precio'] == "" || $_GET['stock'] == ""){
-        header($ruta."agregarProducto.php?err=2");
+        header($ruta."verProducto.php?id=".$_GET['idprod']."&err=2&ubi=".$_GET['ubi']);
     }
     else{
         extract($_GET);
@@ -21,11 +21,11 @@
         mysqli_query($conexion, $stockQry);
         
         $consulta = "UPDATE `productos` SET `albumname`='$album',`prices`='$precio',`description`='$descripcion',
-                    `modified_at`=now(),`artistname`='$artista' WHERE `idprod`='$idprod'";
+                    `modified_at`=now(),`artistname`='$artista', `format`='$formato', `genre`='$genero' WHERE `idprod`='$idprod'";
         mysqli_query($conexion, $consulta);
         
         mysqli_close($conexion);
         
-        header($ruta."editarArticulo.php?err=0&id=$idprod");
+        header($ruta."verProducto.php?id=".$_GET['idprod']."&err=0&ubi=".$_GET['ubi']);
     }
 ?>

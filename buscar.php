@@ -1,5 +1,6 @@
 <?php
-include("funciones.php");
+include("include/funciones.php");
+include("include/partesPag.php");
 //cadena de conexion
 $conexion = conectarBD();
 //DEBO PREPARAR LOS TEXTOS QUE VOY A BUSCAR si la cadena existe
@@ -8,8 +9,30 @@ if(!isset($_POST['busqueda'])){
 }
 
 extract($_POST);
-echo "<a href=\"portada.php\">Regresar a inicio</a><br>";
-crearBarraBusqueda();
+?>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busqueda | SoundStream</title>
+
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+<?php
+navbar();
+echo "<h2 style=\"padding-top:100px;\">Resultado Busqueda</h2>"; 
+?>
+<div class="container-fluid" style="padding:40px 100px 70px;">
+        <div class="row justify-content-start">
+            <div class="col-9">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+<?php
 if ($busqueda!=''){
     //CUENTA EL NUMERO DE PALABRAS
     $trozos=explode(" ",$busqueda);
@@ -24,58 +47,11 @@ if ($busqueda!=''){
         $consulta="SELECT * , MATCH ( `albumname`,`artistname`,`genre`,`format` ) AGAINST ( '$busqueda' ) AS `Score` FROM `productos` WHERE MATCH ( `albumname`,`artistname`,`genre`,`format` ) AGAINST ( '$busqueda' ) ORDER BY `Score` DESC LIMIT 50";
     }
     
-    $result = $conexion->query($consulta);
-
-    if(mysqli_num_rows($result) > 0){
-        echo "<table>";
-        echo "<tr>";
-        echo "<td>Id</td>";
-        echo "<td>Nombre album</td>";
-        echo "<td>Artista</td>";
-        echo "<td>Precio</td>";
-        echo "<td>Cantidad en stock</td>";
-        echo "<td>Descripción</td>";
-        echo "<td>Genero</td>";
-        echo "<td>Formato</td>";
-        echo "<td>Imagenes</td>";
-        if(isset($_SESSION['role']) && $_SESSION['role'] > 1){
-            echo "<td>Edición</td>";
+    $res = $conexion->query($consulta);
+    if(mysqli_num_rows($res)>0){
+        while($row = $res->fetch_array(MYSQLI_ASSOC)){
+            prodCard($row['idprod'],"allProductos.php");
         }
-        echo "<td>Compra-Venta</td>";
-        echo "</tr>";
-        while($row = $result->fetch_array(MYSQLI_ASSOC)){
-            echo "<td>".$row['idprod']."</td>";
-            echo "<td>".$row['albumname']."</td>";
-            echo "<td>".$row['artistname']."</td>";
-            $precio = precioDescuentoItem($row['idprod']);
-            echo "<td>$precio</td>";
-            $value = conseguirStock($row['idprod']);
-            echo "<td>".$value."</td>";
-            echo "<td>".$row['description']."</td>";
-            echo "<td>".$row['genre']."</td>";
-            echo "<td>".$row['format']."</td>";
-            echo "<td>";
-            $imageQRY = $conexion->query("SELECT * FROM `imagenes` WHERE `idprod` = ".$row['idprod']);
-            if($imageQRY){
-                while($img = $imageQRY->fetch_array(MYSQLI_ASSOC)){
-                    echo "<img src='mostrarImagen.php?id=".$img["id"]."' width='200' height='200'><br>";
-                }
-            }
-            echo "</td>";
-            if(isset($_SESSION['role']) && $_SESSION['role'] > 1){
-                echo "<td><a href=\"editarArticulo.php?id=".$row['idprod']."\">Editar</a><br>
-                            <a href=\"agregarImagenDirecto.php?id=".$row['idprod']."\">Agregar imagen</a><br>
-                            <a href=\"eliminarArticulo.php?id=".$row['idprod']."\">Eliminar</a><br>
-                            <a href=\"seleccionarDescuento.php?id=".$row['idprod']."\">Aplicar descuento</a><br>
-                            <a href=\"retirarDescuento.php?id=".$row['idprod']."\">Retirar descuento</a></td>";
-            }
-            else if (isset($_SESSION['role']) && $_SESSION['role'] == 1){
-                echo "<td><a href=\"comprar.php?id=".$row['idprod']."\">Comprar ahora</a><br>
-                          <a href=\"agregarCarrito.php?id=".$row['idprod']."\"&ubi=\"Portada.php\">Agregar a mi carrito</a></td>";
-            }
-            echo "</tr>";
-        }
-        echo "</table>";
     }
     else{
         echo "<h3>No hubo resultados para su busqueda</h3>";
@@ -83,6 +59,18 @@ if ($busqueda!=''){
     mysqli_close($conexion);
 }
 else{
-    echo "<h3>Por favor introduzca una busqueda</h3>";
+    ?>
+    <h3>Por favor introduzca una busqueda</h3>
+    <?php
 }
+echo "
+                </div>
+            </div>
+        </div>
+    </div>
+    ";
+footer();
 ?>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

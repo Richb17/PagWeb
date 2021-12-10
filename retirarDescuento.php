@@ -1,5 +1,5 @@
 <?php
-include("funciones.php");
+include("include/funciones.php");
 
 autenticado();
 if(!isset($_GET["id"])  ){
@@ -10,5 +10,5 @@ $conexion = conectarBD();
 
 $conexion->query("UPDATE `productos` SET `modified_at`=now(),`iddiscount`=NULL WHERE `idprod` = '$id'");
 
-header($ruta."Portada.php");
+regresarUltimaUbi($ubi)
 ?>

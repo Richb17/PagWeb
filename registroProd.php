@@ -1,17 +1,15 @@
 <?php
-    include("funciones.php");
+    include("include/funciones.php");
     autenticado();
     //Se verifica que los datos enviados sean correctos
     if( !isset($_POST['album']) || !isset($_POST['artista'])|| 
         !isset($_POST['precio']) || !isset($_POST['formato'])||
-        !isset($_POST['stock']) || !isset($_POST['descripcion'])||
-        !isset($_POST['nombreStock'])){
+        !isset($_POST['stock']) || !isset($_POST['descripcion'])){
             header($ruta."agregarProducto.php?err=1");
     }
     else if( $_POST['album'] == "" || $_POST['artista'] == "" || 
         $_POST['precio'] == "" || $_POST['formato'] == ""||
-        $_POST['stock'] == "" || $_POST['nombreStock'] == ""||
-        $_POST['titulo'] == ""){
+        $_POST['stock'] == "" || $_POST['titulo'] == ""){
         header($ruta."agregarProducto.php?err=2");
     }
     else if(!empty($_FILES['imagen']['tmp_name'])){
@@ -30,7 +28,7 @@
         $conexion = conectarBD();
 
         //ejecución de la consulta en la BD
-        $consulta = "INSERT INTO `stock`(`id`, `quantity`, `created_at`, `modified_at`, `name`) VALUES (NULL,'$stock',now(),now(),'$nombreStock');";
+        $consulta = "INSERT INTO `stock`(`id`, `quantity`, `created_at`, `modified_at`, `name`) VALUES (NULL,'$stock',now(),now(),'$album-$artista-$formato');";
         mysqli_query($conexion, $consulta);
 
         $consulta = "SELECT * FROM `stock` WHERE `name` = '$nombreStock'";

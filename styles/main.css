@@ -1,0 +1,14 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.img_prod_min {
+    width: 270px;
+    height: 270px;
+}
+
+.img_prod_max {
+    width: 500px;
+    height: 500px;
+}
