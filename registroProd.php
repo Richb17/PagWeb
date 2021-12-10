@@ -28,10 +28,10 @@
         $conexion = conectarBD();
 
         //ejecución de la consulta en la BD
-        $consulta = "INSERT INTO `stock`(`id`, `quantity`, `created_at`, `modified_at`, `name`) VALUES (NULL,'$stock',now(),now(),'$album-$artista-$formato');";
+        echo $consulta = "INSERT INTO `stock`(`id`, `quantity`, `created_at`, `modified_at`, `name`) VALUES (NULL,'$stock',now(),now(),'$album-$artista-$formato');";
         mysqli_query($conexion, $consulta);
 
-        $consulta = "SELECT * FROM `stock` WHERE `name` = '$nombreStock'";
+        $consulta = "SELECT * FROM `stock` WHERE `name` = '$album-$artista-$formato'";
         $res = mysqli_query($conexion, $consulta);
         $rs = mysqli_fetch_array($res);
         $consulta = "INSERT INTO `productos`(`idprod`, `albumname`, `prices`, `description`, `created_at`, `modified_at`, `idstock`, `iddiscount`, `genre`, `format`, `artistname`) VALUES 
