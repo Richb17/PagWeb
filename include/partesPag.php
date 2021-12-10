@@ -44,7 +44,7 @@ function navbar()
     </li>";
     if (!isset($_SESSION['role'])) {
         echo "  <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"#\">Iniciar Sesión o Registrarse</a>
+                    <a class=\"nav-link\" href=\"iniciarSesion.php\">Iniciar Sesión o Registrarse</a>
                 </li>";
     } else {
         echo "  <li class=\"nav-item\">
@@ -63,7 +63,7 @@ function navbar()
                     </li>";
         } else {
             echo "  <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"verCarrito.php\">Carrito</a>
+                        <a class=\"nav-link\" href=\"verCarrito.php\">Ver mi Carrito</a>
                     </li>";
         }
         echo "  <li class=\"nav-item\">
@@ -134,6 +134,8 @@ function prodCard($idprod, $ubi)
                 <div class=\"col\"><a href=\"comprarAhora.php?id=$idprod&ubi=$ubi\" class=\"btn btn-secondary\">Comprar ahora</a></div>";
         }
         echo "</div>";
+    }else{
+        echo "<a href=\"iniciarSesion.php\" class=\"btn btn-primary\">Inicia Sesión para comprar</a>";
     }
 
     echo "
@@ -190,53 +192,55 @@ function mostrarComentariosProducto($idprod, $conexion)
             }
             echo "<h6 class=\"card-subtitle\">Ultima edición: $modified_at</h6><br>";
             echo "<p class=\"card-text\">$reviewtext</p>";
-            if ($_SESSION['role'] > 1 || $_SESSION['username'] == $username) {
-                echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal$idprod\">";
-            ?>
-                Editar
-                </button>
-                <?php
-                echo "<div class=\"modal fade\" id=\"editModal$idprod\" tabindex=\"-1\" aria-labelledby=\"editLabel$idprod\" aria-hidden=\"true\">";
+            if(isset($_SESSION['role']) && isset($_SESSION['username'])){
+                if ($_SESSION['role'] > 1 || $_SESSION['username'] == $username) {
+                    echo "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal$idprod\">";
                 ?>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="post" action="editarRes.php">
-                            <div class="modal-header">
-                                <?php
-                                echo "<h5 class=\"modal-title\" id=\"editLabel$idprod\">Editar comentario</h5>";
-                                ?>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-check">
+                    Editar
+                    </button>
+                    <?php
+                    echo "<div class=\"modal fade\" id=\"editModal$idprod\" tabindex=\"-1\" aria-labelledby=\"editLabel$idprod\" aria-hidden=\"true\">";
+                    ?>
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" action="editarRes.php">
+                                <div class="modal-header">
                                     <?php
-                                    echo "<input class=\"form-check-input\" type=\"checkbox\" value=\"1\" name= \"radioRec\" id=\"radioRec$idprod\">
-                                        <label class=\"form-check-label\" for=\"radioRec$idprod\">";
+                                    echo "<h5 class=\"modal-title\" id=\"editLabel$idprod\">Editar comentario</h5>";
                                     ?>
-                                    Recomendado
-                                    </label>
-                                </div>
-                                <?php
-                                echo "<label for=\"txtReview$idprod\" class=\"form-label\">Reseña</label>";
-                                echo "<input type=\"text\" name=\"txtReview\" class=\"form-control\" id=\"txtReview$idprod\" rows=\"6\" value=\"$reviewtext\">";
-                                echo "<input type=\"hidden\" value=\"$idreview\" name=\"idReview\" id=\"idReview\">";
-                                echo "<input type=\"hidden\" value=\"verProducto.php?id=$idprod\" name=\"ubi\">";
-                                ?>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary" value="Guardar cambios">
-                            </div>
-                        </form>
-                    </div>
-                </div>
 
-        </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-check">
+                                        <?php
+                                        echo "<input class=\"form-check-input\" type=\"checkbox\" value=\"1\" name= \"radioRec\" id=\"radioRec$idprod\">
+                                            <label class=\"form-check-label\" for=\"radioRec$idprod\">";
+                                        ?>
+                                        Recomendado
+                                        </label>
+                                    </div>
+                                    <?php
+                                    echo "<label for=\"txtReview$idprod\" class=\"form-label\">Reseña</label>";
+                                    echo "<input type=\"text\" name=\"txtReview\" class=\"form-control\" id=\"txtReview$idprod\" rows=\"6\" value=\"$reviewtext\">";
+                                    echo "<input type=\"hidden\" value=\"$idreview\" name=\"idReview\" id=\"idReview\">";
+                                    echo "<input type=\"hidden\" value=\"verProducto.php?id=$idprod\" name=\"ubi\">";
+                                    ?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+            </div>
+            <?php
+                    echo "<a href=\"eliminarRes.php?un=$username&id=$idprod&ubi=verProducto.php?id=$idprod\" class=\"btn btn-danger\">Eliminar</a>";
+            ?>
         <?php
-                echo "<a href=\"eliminarRes.php?un=$username&id=$idprod&ubi=verProducto.php?id=$idprod\" class=\"btn btn-danger\">Eliminar</a>";
-        ?>
-    <?php
+                }
             }
     ?>
     </div>

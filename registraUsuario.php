@@ -4,15 +4,15 @@
     if( !isset($_GET['txtUsuario']) || !isset($_GET['txtPwd'])|| 
         !isset($_GET['txtConfirm']) || !isset($_GET['txtEmail'])||
         !isset($_GET['txtNombre']) || !isset($_GET['txtApellido'])){
-            header($ruta."registro.php?err=1");
+            header($ruta."iniciarSesion.php?reg=1");
     }
     else if( $_GET['txtUsuario'] == "" || $_GET['txtPwd'] == "" || 
         $_GET['txtConfirm'] == "" || $_GET['txtEmail'] == ""||
         $_GET['txtNombre'] == "" || $_GET['txtApellido'] == "" ){
-        header($ruta."registro.php?err=2");
+        header($ruta."iniciarSesion.php?reg=2");
     }
     else if($_GET['txtPwd'] != $_GET['txtConfirm']){
-        header($ruta."registro.php?err=3");
+        header($ruta."iniciarSesion.php?reg=3");
     }
     else{
         extract($_GET);
@@ -23,13 +23,6 @@
         $rs = mysqli_query($conexion, $consulta);
         mysqli_close($conexion);
         
-        header($ruta."registro.php?err=0");
-        //recuperar la respuesta de la ejecución de la consulta
-        //si hay error 
-
-        //Si no hay error 
+        header($ruta."iniciarSesion.php?reg=0");
     }
-
-    
-
 ?>

@@ -21,7 +21,7 @@
         mysqli_query($conexion, $stockQry);
         
         $consulta = "UPDATE `productos` SET `albumname`='$album',`prices`='$precio',`description`='$descripcion',
-                    `modified_at`=now(),`artistname`='$artista' WHERE `idprod`='$idprod'";
+                    `modified_at`=now(),`artistname`='$artista', `format`='$formato', `genre`='$genero' WHERE `idprod`='$idprod'";
         mysqli_query($conexion, $consulta);
         
         mysqli_close($conexion);

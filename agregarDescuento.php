@@ -5,10 +5,10 @@
     //Se verifica que los datos enviados sean correctos
     if( !isset($_GET['code']) || !isset($_GET['descripcion'])|| 
         !isset($_GET['descuento'])){
-            //header($ruta."registroAdmin.php?err=1");
+            header($ruta."seleccionarDescuento.php?err=1");
     }
     else if( $_GET['code'] == "" || $_GET['descuento'] == ""){
-        //header($ruta."registroAdmin.php?err=2");
+        header($ruta."seleccionarDescuento.php?err=2");
     }
     else{
         extract($_GET);

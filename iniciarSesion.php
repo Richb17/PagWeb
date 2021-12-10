@@ -1,168 +1,161 @@
 <?php
 include("include/funciones.php");
 include("include/partesPag.php");
-autenticado();
-$msg="";
+$msg = "";
+if (isset($_GET['reg']) && $_GET['reg'] != "") {
+    if ($_GET['reg'] == "0") $msg = "Se registro correctamente el usuario";
+    if ($_GET['reg'] == "1") $msg = "Se debe utilizar el formulario de registro";
+    if ($_GET['reg'] == "2") $msg = "Se deben llenar todos los campos";
+    if ($_GET['reg'] == "3") $msg = "Las contraseñas no coinciden";
+}
+if (isset($_GET['log']) && $_GET['log'] != "") {
+    if ($_GET['log'] == "1") $msg = "El usuario y/o la contraseña no son correctos";
+    if ($_GET['log'] == "2") $msg = "Debe introducir ambos campos para iniciar sesión";
+    if ($_GET['log'] == "3") $msg = "Debe iniciar sesión a través del formulario";
+}
+
 ?>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil | SoundStream</title>
+    <title>Iniciar Sesión | SoundStream</title>
 
     <link href="styles/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
     <link href="styles/main.css" rel="stylesheet">
 
-    <script type="text/javascript">
-        function validaFRM_P() {
-            if (document.getElementById("txtPwdActual").value == "" ||
-                document.getElementById("txtPwdNueva").value == "" ||
-                document.getElementById("txtConfirma").value == "") {
-                document.getElementById("alertaPwd").innerHTML = "Por favor llene todos los campos.";
-                return false;
-            } else if (document.getElementById("txtPwdNueva").value != document.getElementById("txtConfirma").value) {
-                document.getElementById("alertaPwd").innerHTML = "Las contraseñas no coinciden, debe introducir la misma contraseña en ambos campos";
-                document.getElementById("txtPwdNueva").value = "";
-                document.getElementById("txtPwdActual").value = "";
-                document.getElementById("txtConfirma").value = "";
-                return false;
-            } else if (document.getElementById("txtPwdNueva").value == document.getElementById("txtPwdActual").value) {
-                document.getElementById("alertaPwd").innerHTML = "Su nueva contraseña no puede ser la misma que la anterior";
-                document.getElementById("txtPwdNueva").value = "";
-                document.getElementById("txtPwdActual").value = "";
-                document.getElementById("txtConfirma").value = "";
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        function validaFRM_Name() {
-            if (document.getElementById("newname").value == "") {
-                document.getElementById("alertaName").innerHTML = "Por favor llene todos los campos.";
-                return false;
-            } else {
-                return true;
-            }
-        }
-    </script>
 </head>
+
 <body>
 
-<?php
-navbar();
-//Autenticación
-?>
-<div class="container-fluid" style="padding:100px 0px; max-width: 1468px;">
-    <?php echo "<h2 style=\"padding-top:100px;\">".$_SESSION['username']."</h2>"?>
-    <div class="row">
-            <div class="col-6" style="border:1px solid White;">
-                <p>
-                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthPWD" aria-expanded="false" aria-controls="collapseWidthPWD">
-                      Cambiar contraseña.
-                    </button>
-                </p>
-                <div style="min-height: 120px;">
-                    <div class="collapse collapse-horizontal" id="collapseWidthPWD">
-
-                        <div class="card card-body" style="width: 500px;">
-                        <?php
-                        if($msg != ""){
-                            echo "<div class=\"alertaPwd\">$msg</div>";
-                        }
-                        else{
-                            echo "<div class=\"alertaPwd\"></div>";
-                        }
-                        ?>
-                            <form method="post" action="cambiarPwd.php" onsubmit="return validaFRM_P()"></form>
-                            Ingresa la contraseña actual: <input type="password" id="txtPwdActual" name="txtPwdActual"><br> Ingresa tu nueva contraseña: <input type="password" id="txtPwdNueva" name="txtPwdNueva"><br> Confirma tu contraseña: <input type="password"
-                                id="txtConfirma" name="txtConfirma"><br>
-                            <input type="submit" class="btn btn-primary" value="Actualizar contraseña">
-                            <input type="reset" class="btn btn-danger" value="Cancelar"> <br>
-                            </form>
-                        </div>
+    <?php
+    navbar();
+    //Autenticación
+    ?>
+    <div class="container-fluid" style="padding:200px 0px; max-width: 1468px;">
+        <div class="row justify-content-center">
+            <div class="col-4 align-self-center">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>Inicia Sesión</h3>
                     </div>
-                </div>
-                <p>
-                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthName" aria-expanded="false" aria-controls="collapseWidthName">
-                      Cambiar nombre de usuario.
-                    </button>
-                </p>
-                <div style="min-height: 120px;">
-                    <div class="collapse collapse-horizontal" id="collapseWidthName">
-                        <div class="card card-body" style="width: 500px;">
+                    <div class="card-body">
                         <?php
-                        if($msg != ""){
-                            echo "<div class=\"alertaName\">$msg</div>";
-                        }
-                        else{
-                            echo "<div class=\"alertaName\"></div>";
+                        if ($msg != "" && isset($_GET['log'])) {
+                            if ($_GET['log'] != "0") {
+                                echo "
+                            <div class=\"alert alert-dismissible alert-danger\" id=\"alertaPwd\">
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                                <strong>Oh no!</strong> $msg
+                            </div>
+                            ";
+                            } else {
+                                echo "
+                            <div class=\"alert alert-dismissible alert-success\" id=\"alertaPwd\">
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                                <strong>Muy bien!</strong> $msg
+                            </div>
+                            ";
+                            }
                         }
                         ?>
-                            
-                            <form method="post" action="cambiarUserN.php" onsubmit="return validaFRM_Name()"></form>
-                            Ingresa tu nuevo nombre de usuario: <input type="text" id="newname" name="newname"><br>
-                            <input type="button" class="btn btn-primary" value="Actualizar nombre de usuario" data-bs-toggle="modal" data-bs-target="#staticBackdropName">
-                            <input type="reset" class="btn btn-danger" value="Cancelar"> <br>
-
-                            <div class="modal fade" id="staticBackdropName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropNameLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropNameLabel">Cambio de nombre de usuario</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            ¿Está seguro de querer cambiar su nombre de usuario?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <input type="submit" class="btn btn-primary"></button>
-                                        </div>
-                                    </div>
-                                </div>
+                        <form method="post" action="login.php">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="usuario"><br>
+                                <label for="txtUsuario">Usuario</label>
                             </div>
-                            </form>
-                        </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="txtPwd" name="txtPwd" placeholder="Contraseña"><br>
+                                <label for="txtPwd">Contraseña</label>
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
+                            <input type="reset" class="btn btn-secondary" value="Cancelar"> <br>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-6" style="border:1px solid White;">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropEliminar">
-                    Eliminar cuenta
-                </button>
+            <div class="col-2"></div>
+            <div class="col-5 align-self-center">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>Registrate</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        if ($msg != "" && isset($_GET['reg'])) {
+                            if ($_GET['reg'] != "0") {
+                                echo "
+                            <div class=\"alert alert-dismissible alert-danger\" id=\"alertaPwd\">
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                                <strong>Oh no!</strong> $msg
+                            </div>
+                            ";
+                            } else {
+                                echo "
+                            <div class=\"alert alert-dismissible alert-success\" id=\"alertaPwd\">
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                                <strong>Muy bien!</strong> $msg
+                            </div>
+                            ";
+                            }
+                        }
+                        ?>
+                        <form method="get" action="registraUsuario.php" class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="usuario"><br>
+                                    <label for="txtUsuario">Nombre de usuario</label>
+                                </div>
+                            </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdropEliminar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropEliminarLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropEliminarLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="email" id="txtEmail" name="txtEmail" placeholder="email"><br>
+                                    <label for="txtEmail">E-Mail</label>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                ¿Está seguro de querer eliminar su cuenta?
+
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text">Nombre y apellidos</span>
+                                    <input type="text" type="text" id="txtNombre" name="txtNombre" aria-label="First name" class="form-control">
+                                    <input type="text" type="text" id="txtApellido" name="txtApellido" aria-label="Last name" class="form-control">
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" href="eliminarCuenta.php">Eliminar</button>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="password" id="txtPwd" name="txtPwd" placeholder="Contraseña"><br>
+                                    <label for="txtPwd">Contraseña</label>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="password" id="txtConfirm" name="txtConfirm" placeholder="Confirmar Contraseña"><br>
+                                    <label for="txtConfirm">Confirmar contraseña</label>
+                                </div>
+                            </div>
+
+                            <input type="submit" class="btn btn-primary" value="Regístrame">
+                            <input type="reset" class="btn btn-secondary"value="Cancelar">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
 
-<?php
-footer();
-?>
+    <?php
+    footer();
+    ?>
 
-<script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

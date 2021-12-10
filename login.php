@@ -17,30 +17,17 @@ if(isset($_POST['txtUsuario']) && isset($_POST['txtPwd'])){
             $_SESSION['idusuario'] = $datosU["idusuario"];
             $_SESSION['username'] = $datosU["username"];
             $_SESSION['role'] = $datosU["role"];
-            header("location:http://localhost/DesWeb%20PHP/Modulos/Portada.php");
+            header($ruta."Portada.php");
         }
         else{
-            $msg = "El usuario y/o la contraseña no son correctos";
+            header($ruta."iniciarSesion.php?log=1");
         }
     }
     else{
-        $msg = "Debe introducir ambos campos para iniciar sesión";
+        header($ruta."iniciarSesion.php?log=2");
     }
 }
 else{
-    $msg = "Debe iniciar sesión a través del formulario";
+    header($ruta."iniciarSesion.php?log=3");
 }
 ?>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php 
-        if($msg != '') echo $msg;
-    ?>
-</body>
-</html>

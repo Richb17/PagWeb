@@ -3,7 +3,11 @@ include("include/funciones.php");
 include("include/partesPag.php");
 $msg = "";
 autenticado();
-
+if (isset($_GET['err']) && $_GET['err'] != "") {
+    if ($_GET['err'] == "0") $msg = "Se registro correctamente";
+    if ($_GET['err'] == "1") $msg = "Se debe utilizar el formulario de registro";
+    if ($_GET['err'] == "2") $msg = "Se deben llenar todos los campos";
+}
 if ($_SESSION['role'] == 1) header($ruta . "Portada.php");
 
 ?>
@@ -27,6 +31,23 @@ if ($_SESSION['role'] == 1) header($ruta . "Portada.php");
     <div class="container-fluid" style="padding-top:100px; max-width: 1468px;">
         <?php
         echo "<h3>Seleccion de descuentos</h3></div>";
+        if ($msg != "" && isset($_GET['err'])) {
+            if ($_GET['err'] != "0") {
+                echo "
+            <div class=\"alert alert-dismissible alert-danger\" id=\"alertaPwd\">
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                <strong>Oh no!</strong> $msg
+            </div>
+            ";
+            } else {
+                echo "
+            <div class=\"alert alert-dismissible alert-success\" id=\"alertaPwd\">
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                <strong>Muy bien!</strong> $msg
+            </div>
+            ";
+            }
+        }
         echo "<div class='container-fluid' style='max-width: 1468px;'>";
         if ($msg != "") {
             echo "<div id=\"msgAlerta\"> $msg </div>";
@@ -47,24 +68,24 @@ if ($_SESSION['role'] == 1) header($ruta . "Portada.php");
             echo "</tr>";
             while ($val = $res->fetch_array(MYSQLI_ASSOC)) {
                 echo "<tr class=\"table-dark\">";
-                echo "<th>" . $val['id'] . "</th>";
-                echo "<th>" . $val['code'] . "</th>";
-                echo "<th>" . $val['description'] . "</th>";
+                echo "<td>" . $val['id'] . "</td>";
+                echo "<td>" . $val['code'] . "</td>";
+                echo "<td>" . $val['description'] . "</td>";
                 $descuento = $val['discount'] * 100;
-                echo "<th>$descuento%</th>";
+                echo "<td>$descuento%</td>";
                 if (isset($_GET['id'])) {
-                    echo "<th><a class='btn btn-primary' href=\"aplicarDescuento.php?idprod=" . $_GET['id'] . "&iddesc=" . $val['id'] . "&ubi=" . $_GET['ubi'] . "\">Seleccionar</a></th>";
+                    echo "<td><a class='btn btn-primary' href=\"aplicarDescuento.php?idprod=" . $_GET['id'] . "&iddesc=" . $val['id'] . "&ubi=" . $_GET['ubi'] . "\">Seleccionar</a></td>";
                 } else {
-                    echo "<th>No hay articulo seleccionado<th>";
+                    echo "<td>No hay articulo seleccionado<td>";
                 }
                 echo "</tr>";
             }
             echo "<tr class=\"table-success\">";
-            echo "<th></th>";
-            echo "<th></th>";
-            echo "<th></th>";
-            echo "<th>Registrar Nuevo Descuento</th>";
-            echo "<th> <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#registrarModal\">Agregar</button> </th>";
+            echo "<td></td>";
+            echo "<td></td>";
+            echo "<td></td>";
+            echo "<td>Registrar Nuevo Descuento</td>";
+            echo "<td> <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#registrarModal\">Agregar</button> </td>";
             echo "</tr>";
             echo "</table>";
         }
